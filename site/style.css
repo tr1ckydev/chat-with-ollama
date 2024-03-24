@@ -1,0 +1,397 @@
+@font-face {
+    font-family: 'Geist Regular';
+    src: url('Geist-Regular.woff2') format('woff2');
+}
+
+:root {
+    /* Colors */
+    --COLOR-BG: #eaeaea;
+    --COLOR-FG: #000;
+    --COLOR-ACCENT: #666;
+    --COLOR-BORDER: #eaeaea;
+    --COLOR-SHADOW: #555;
+    --COLOR-GRID: #dddddd;
+    --COLOR-BLUE: #0070f3;
+
+    --GAP: 20px;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --COLOR-BG: #000;
+        --COLOR-FG: #eaeaea;
+        --COLOR-BORDER: #333;
+        --COLOR-GRID: #222;
+        --COLOR-ACCENT: #999;
+    }
+}
+
+
+body {
+    font-family: 'Geist Regular';
+    background-color: var(--COLOR-BG);
+    color: var(--COLOR-FG);
+    margin: auto 25% auto 25%;
+
+    a {
+        color: var(--COLOR-FG);
+        text-decoration: underline;
+        cursor: pointer;
+        transition: opacity .3s ease;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+}
+
+@media only screen and (max-device-width: 425px) {
+    body {
+        margin: 2%;
+    }
+}
+
+@media only screen and (max-device-width: 768px) {
+    body {
+        margin: 5%;
+    }
+}
+
+header {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-top: var(--GAP);
+    margin-bottom: var(--GAP);
+    display: flex;
+    gap: var(--GAP);
+
+    /* Ollama logo */
+    >img {
+        height: 2rem;
+
+        @media (prefers-color-scheme: dark) {
+            filter: invert(1);
+        }
+    }
+}
+
+/* Interface grids */
+main {
+    display: grid;
+    grid-template-rows: auto calc(100vh - 310px);
+    grid-template-columns: 2fr 2fr;
+    gap: var(--GAP);
+
+    /* Interface grid item */
+    >div {
+        background-color: var(--COLOR-GRID);
+        border-radius: 6px;
+        padding: var(--GAP);
+    }
+
+    /* Bottom grid item */
+    >div:last-child {
+        grid-column: span 2;
+        height: fit-content;
+
+        /* Import dataset button */
+        >button {
+            margin: 0 auto;
+        }
+
+        /* Loading spinner message */
+        #loading {
+            display: none;
+            gap: var(--GAP);
+            justify-content: center;
+            height: 45px;
+        }
+
+        #chat-window {
+            display: none;
+
+            >div {
+
+                /* Header - Title */
+                &:nth-child(1) {
+                    display: flex;
+                    gap: var(--GAP);
+
+                    >label {
+                        width: 100%;
+                    }
+                }
+
+                /* Body - Messages */
+                &:nth-child(2) {
+                    height: calc(100vh - 490px);
+                    margin: var(--GAP) 0 var(--GAP) 0;
+                    padding-right: var(--GAP);
+                    overflow-y: scroll;
+                    scroll-behavior: smooth;
+
+                    /* Message */
+                    >div {
+                        padding: var(--GAP);
+                        text-align: justify;
+                        margin: var(--GAP) 0 0 0;
+
+                        >p {
+                            margin: 0;
+                        }
+
+                        &.user {
+                            background-color: var(--COLOR-BLUE);
+                            margin-left: 100px;
+                            border-radius: 10px 10px 0px 10px;
+                            color: #eaeaea;
+                        }
+
+                        &.assistant {
+                            background-color: var(--COLOR-BORDER);
+                            margin-right: 100px;
+                            border-radius: 10px 10px 10px 0px;
+                        }
+                    }
+                }
+
+                /* Footer - Input */
+                &:nth-child(3) {
+                    display: flex;
+                    gap: var(--GAP);
+                }
+            }
+        }
+    }
+}
+
+label {
+    color: var(--COLOR-ACCENT);
+    display: flex;
+    align-items: center;
+    gap: calc(var(--GAP) / 2);
+    font-size: 15px;
+
+    /* Label icon */
+    >svg {
+        height: 15px;
+    }
+}
+
+select,
+input[type='text'] {
+    background-color: var(--COLOR-BG);
+    height: 45px;
+    width: 100%;
+    font: inherit;
+    color: var(--COLOR-FG);
+    border: 1px solid var(--COLOR-BORDER);
+    border-radius: 6px;
+    padding-left: 15px;
+    outline: none;
+    transition: box-shadow .3s ease, border-color .2s ease;
+    box-sizing: border-box;
+
+    &:focus {
+        box-shadow: 0 0 0 3px var(--COLOR-SHADOW);
+        border-color: var(--COLOR-FG);
+    }
+}
+
+/* Select arrow icon */
+select {
+    appearance: none;
+    background-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23999%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20class%3D%22feather%20feather-chevron-down%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E');
+    background-position: center right 15px;
+    background-repeat: no-repeat;
+    background-size: 20px;
+}
+
+input[type='range'] {
+    appearance: none;
+    height: 8px;
+    width: 100%;
+    background-color: var(--COLOR-BORDER);
+    border-radius: 4px;
+    transition: opacity .3s ease;
+
+    &::-webkit-slider-thumb {
+        appearance: none;
+        background-color: var(--COLOR-BLUE);
+        height: 20px;
+        width: 20px;
+        border-radius: 10px;
+    }
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.temperature-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+
+    >label {
+        font-size: 13px;
+    }
+}
+
+button {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font: inherit;
+    height: 45px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all .3s ease;
+
+    >svg {
+        height: 17px;
+    }
+
+    &.primary {
+        background-color: var(--COLOR-BLUE);
+        color: #eaeaea;
+        border: none;
+        padding-left: 16px;
+        padding-right: 16px;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+    &.secondary {
+        background-color: transparent;
+        color: var(--COLOR-FG);
+        border: 1px solid var(--COLOR-BORDER);
+        padding-left: 11px;
+        padding-right: 11px;
+
+        &:hover {
+            background-color: var(--COLOR-SHADOW);
+        }
+    }
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--COLOR-BORDER);
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--COLOR-ACCENT);
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Loading spinner */
+.lds-spinner {
+    color: official;
+    display: inline-block;
+    position: relative;
+    top: -5px;
+    width: 40px;
+    height: 40px;
+    transform: scale(0.4);
+
+    div {
+        transform-origin: 40px 40px;
+        animation: lds-spinner 1.2s linear infinite;
+
+        &:after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 3px;
+            left: 37px;
+            width: 3px;
+            height: 15px;
+            border-radius: 20%;
+            background: var(--COLOR-FG);
+        }
+
+        &:nth-child(1) {
+            transform: rotate(0deg);
+            animation-delay: -1.1s;
+        }
+
+        &:nth-child(2) {
+            transform: rotate(30deg);
+            animation-delay: -1s;
+        }
+
+        &:nth-child(3) {
+            transform: rotate(60deg);
+            animation-delay: -0.9s;
+        }
+
+        &:nth-child(4) {
+            transform: rotate(90deg);
+            animation-delay: -0.8s;
+        }
+
+        &:nth-child(5) {
+            transform: rotate(120deg);
+            animation-delay: -0.7s;
+        }
+
+        &:nth-child(6) {
+            transform: rotate(150deg);
+            animation-delay: -0.6s;
+        }
+
+        &:nth-child(7) {
+            transform: rotate(180deg);
+            animation-delay: -0.5s;
+        }
+
+        &:nth-child(8) {
+            transform: rotate(210deg);
+            animation-delay: -0.4s;
+        }
+
+        &:nth-child(9) {
+            transform: rotate(240deg);
+            animation-delay: -0.3s;
+        }
+
+        &:nth-child(10) {
+            transform: rotate(270deg);
+            animation-delay: -0.2s;
+        }
+
+        &:nth-child(11) {
+            transform: rotate(300deg);
+            animation-delay: -0.1s;
+        }
+
+        &:nth-child(12) {
+            transform: rotate(330deg);
+            animation-delay: 0s;
+        }
+    }
+}
+
+@keyframes lds-spinner {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

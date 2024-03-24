@@ -1,0 +1,36 @@
+{
+  "name": "chat-with-ollama",
+  "version": "1.0.0",
+  "description": "NVIDIA Chat with RTX recreated for Ollama.",
+  "main": "src/index.ts",
+  "scripts": {
+    "compile:client": "bun build src/client.ts --outdir site/ --minify",
+    "start": "bun compile:client && bun ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tr1ckydev/chat-with-ollama.git"
+  },
+  "keywords": [
+    "ai",
+    "rag",
+    "chat"
+  ],
+  "author": "tr1ckydev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tr1ckydev/chat-with-ollama/issues"
+  },
+  "homepage": "https://github.com/tr1ckydev/chat-with-ollama#readme",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "dependencies": {
+    "beerio": "^0.1.0",
+    "llamaindex": "^0.1.19",
+    "marked": "^12.0.0",
+    "ollama": "^0.4.9",
+    "open": "^10.0.4",
+    "youtube-fetch-transcript": "^1.0.0"
+  }
+}
